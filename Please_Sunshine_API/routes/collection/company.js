@@ -61,10 +61,12 @@ router.get('/', function(req, res) {
                         } else {
 
                         	let minMaxWatt = min + "~" + max + "W" ;
+
                         	let data = {
-                        		id : index ,
-                        		name : result[i-1].c_name ,
-                        		watt : minMaxWatt
+                        		c_id : index ,
+                        		c_name : result[i-1].c_name ,
+                        		c_summaryInfo1 : minMaxWatt ,
+                        		c_summaryInfo3 : result[i-1].c_phoneNum
                         	}
                         	list.push( data ) ;
 
@@ -77,9 +79,10 @@ router.get('/', function(req, res) {
 
                         	let minMaxWatt = min + "~" + max + "W" ;
                         	let data = {
-                        		id : index ,
-                        		name : result[i].c_name ,
-                        		watt : minMaxWatt
+                        		c_id : index ,
+                        		c_name : result[i].c_name ,
+                        		c_summaryInfo1 : minMaxWatt ,
+                        		c_summaryInfo3 : result[i].c_phoneNum
                         	}
                         	list.push( data ) ;
                         }
