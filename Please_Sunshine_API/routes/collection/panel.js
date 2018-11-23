@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 
         function(connection, callback) {
 
-            let selectCompanyDetailQuery = 'SELECT * FROM Company C , PanelInfo PI WHERE C.c_id = PI.c_id AND C.c_id = ? ORDER BY if(ASCII(SUBSTRING(C.c_name , 1)) < 128, 9, 1) ASC , C.c_name ASC';
+            let selectCompanyDetailQuery = 'SELECT * FROM Company C , PanelInfo PI WHERE C.c_id = PI.c_id AND C.c_id = ? ORDER BY PI.pi_watt ASC';
 
             connection.query(selectCompanyDetailQuery, c_id , function(err, result) {
                 if (err) {
