@@ -1,20 +1,21 @@
 /*
-	URL : /collection/company
-	Description : 업체 리스트
-	Content-type : x-www-form-urlencoded
-	method : GET
+    URL : /collection/panel
+    Description : 업체 디테일
+    Content-type : x-www-form-urlencoded
+    method : GET
+    query = /?c_id={업체인덱스}
 */
 
 const express = require('express');
 const router = express.Router();
-const pool = require('../../config/dbPool'); //	경로하나하나
-const calculActualPrice = require( '../../modules/calculActualPrice' ) ;
+const pool = require('../../config/dbPool'); // 경로하나하나
+const calculActualPrice = require('../../modules/calculActualPrice');
 const async = require('async');
 const moment = require('moment');
 
 router.get('/', function(req, res) {
 
-    let c_id = req.query.c_id ;
+    let c_id = req.query.c_id;
 
     let task = [
 
@@ -36,7 +37,7 @@ router.get('/', function(req, res) {
 
             let selectCompanyDetailQuery = 'SELECT * FROM Company C , PanelInfo PI WHERE C.c_id = PI.c_id AND C.c_id = ? ORDER BY PI.pi_watt ASC';
 
-            connection.query(selectCompanyDetailQuery, c_id , function(err, result) {
+            connection.query(selectCompanyDetailQuery, c_id, function(err, result) {
                 if (err) {
                     res.status(500).send({
                         status: "fail",
@@ -51,33 +52,33 @@ router.get('/', function(req, res) {
                     for (let i = 0; i < result.length; i++) {
 
                         let data = {
-
-                            c_module : result[i].c_moudle ,
-                            c_inverter : result[i].c_inverter ,
-                            c_phoneNum : result[i].c_phoneNum ,
-                            c_site : result[i].c_site ,
-
-                            pi_id : result[i].pi_id ,
-                            pi_watt : result[i].pi_watt ,
-                            pi_type : result[i].pi_type ,
-                            pi_installPrice : result[i].pi_installPrice ,
-                            pi_supportPrice : result[i].pi_installPrice - calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ,
-                            pi_actualPrice : calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ,
-                            pi_size : result[i].pi_size
+                            pi_id: result[i].pi_id,
+                            pi_watt: result[i].pi_watt,
+                            pi_type: result[i].pi_type,
+                            pi_installPrice: result[i].pi_installPrice + "원" ,
+                            pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ) + "원",
+                            pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ) + "원" ,
+                            pi_size: result[i].pi_size
                         }
-                        list.push( data ) ;
+                        list.push(data);
                     }
                     connection.release();
-                    callback(null, list );
+                    callback(null, list , result[0].c_module , result[0].c_inverter , result[0].c_phoneNum , result[0].c_site );
                 }
             });
         },
 
-        function(list, callback) {
+        function(list, c_module , c_inverter , c_phoneNum , c_site , callback) {
 
             res.status(200).send({
                 status: "success",
-                data: list,
+                data: {
+                    c_module : c_module ,
+                    c_inverter : c_inverter ,
+                    c_phoneNum : c_phoneNum ,
+                    c_site : c_site ,
+                    detail : list
+                } ,
                 message: "successful get CompanyDetail"
             });
             callback(null, "successful get CompanyDetail");
