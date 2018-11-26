@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const pool = require('../../config/dbPool'); // 경로하나하나
+const pool = require('../../config/dbPool');
 const calculActualPrice = require('../../modules/calculActualPrice');
 const async = require('async');
 const moment = require('moment');
@@ -55,9 +55,9 @@ router.get('/', function(req, res) {
                             pi_id: result[i].pi_id,
                             pi_watt: result[i].pi_watt,
                             pi_type: result[i].pi_type,
-                            pi_installPrice: result[i].pi_installPrice + "원" ,
-                            pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ) + "원",
-                            pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ) + "원" ,
+                            pi_installPrice: result[i].pi_installPrice.toLocaleString() + "원" ,
+                            pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원",
+                            pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원" ,
                             pi_size: result[i].pi_size
                         }
                         list.push(data);

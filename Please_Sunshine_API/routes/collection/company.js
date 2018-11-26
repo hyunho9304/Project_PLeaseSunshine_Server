@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const pool = require('../../config/dbPool'); //	경로하나하나
+const pool = require('../../config/dbPool');
 const calculActualPrice = require( '../../modules/calculActualPrice' ) ;
 const async = require('async');
 const moment = require('moment');
@@ -56,8 +56,8 @@ router.get('/', function(req, res) {
 
                         if (index == result[i].c_id) {
 
-                        	let tmpWatt = result[i].pi_watt ;
-                        	let tmpPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
+                            let tmpWatt = result[i].pi_watt ;
+                            let tmpPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
 
                             if (maxWatt < tmpWatt )
                                 maxWatt = tmpWatt ;
@@ -66,45 +66,45 @@ router.get('/', function(req, res) {
                                 minWatt = tmpWatt ;
 
                             if( maxPrice <  tmpPrice )
-                            	maxPrice = tmpPrice ;
+                                maxPrice = tmpPrice ;
 
                             if( minPrice > tmpPrice )
-                            	minPrice = tmpPrice ;
+                                minPrice = tmpPrice ;
 
                         } else {
 
-                        	let minMaxWatt = minWatt + "~" + maxWatt + "W" ;
-                        	let minMaxPrice = minPrice + "~" + maxPrice + "원" ;
+                            let minMaxWatt = minWatt + "~" + maxWatt + "W" ;
+                            let minMaxPrice = minPrice.toLocaleString() + "~" + maxPrice.toLocaleString() + "원" ;
 
-                        	let data = {
-                        		c_id : index ,
-                        		c_name : result[i-1].c_name ,
-                        		c_summaryInfo1 : minMaxWatt ,
-                        		c_summaryInfo2 : minMaxPrice ,
-                        		c_summaryInfo3 : result[i-1].c_phoneNum
-                        	}
-                        	list.push( data ) ;
+                            let data = {
+                                c_id : index ,
+                                c_name : result[i-1].c_name ,
+                                c_summaryInfo1 : minMaxWatt ,
+                                c_summaryInfo2 : minMaxPrice ,
+                                c_summaryInfo3 : result[i-1].c_phoneNum
+                            }
+                            list.push( data ) ;
 
-                        	index = result[i].c_id;
-                    		minWatt = result[i].pi_watt;
-                    		maxWatt = result[i].pi_watt;
-                    		minPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
-                    		maxPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
+                            index = result[i].c_id;
+                            minWatt = result[i].pi_watt;
+                            maxWatt = result[i].pi_watt;
+                            minPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
+                            maxPrice = calculActualPrice( result[i].pi_watt , result[i].pi_installPrice ) ;
                         }
 
                         if( i == result.length - 1 ) {
 
-                        	let minMaxWatt = minWatt + "~" + maxWatt + "W" ;
-                        	let minMaxPrice = minPrice + "~" + maxPrice + "원" ;
+                            let minMaxWatt = minWatt + "~" + maxWatt + "W" ;
+                            let minMaxPrice = minPrice.toLocaleString() + "~" + maxPrice.toLocaleString() + "원" ;
 
-                        	let data = {
-                        		c_id : index ,
-                        		c_name : result[i].c_name ,
-                        		c_summaryInfo1 : minMaxWatt ,
-                        		c_summaryInfo2 : minMaxPrice ,
-                        		c_summaryInfo3 : result[i].c_phoneNum
-                        	}
-                        	list.push( data ) ;
+                            let data = {
+                                c_id : index ,
+                                c_name : result[i].c_name ,
+                                c_summaryInfo1 : minMaxWatt ,
+                                c_summaryInfo2 : minMaxPrice ,
+                                c_summaryInfo3 : result[i].c_phoneNum
+                            }
+                            list.push( data ) ;
                         }
                     }
                     connection.release();
