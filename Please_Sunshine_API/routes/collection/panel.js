@@ -58,7 +58,7 @@ router.get('/', function(req, res) {
                             pi_installPrice: result[i].pi_installPrice.toLocaleString() + "원" ,
                             pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원",
                             pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원" ,
-                            pi_size: result[i].pi_size
+                            pi_size: result[i].pi_size + "mm"
                         }
                         list.push(data);
                     }
