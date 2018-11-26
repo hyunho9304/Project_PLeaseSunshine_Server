@@ -35,7 +35,7 @@ router.get('/', function(req, res) {
 
         function(connection, callback) {
 
-            let selectCompanyDetailQuery = 'SELECT * FROM Company C , PanelInfo PI WHERE C.c_id = PI.c_id AND C.c_id = ? ORDER BY PI.pi_watt ASC';
+            let selectCompanyDetailQuery = 'SELECT * FROM Company C , PanelInfo PI WHERE C.c_id = PI.c_id AND C.c_id = ? ORDER BY if(ASCII(SUBSTRING(PI.pi_type , 1)) < 128, 9, 1) ASC , PI.pi_type ASC , PI.pi_watt ASC';
 
             connection.query(selectCompanyDetailQuery, c_id, function(err, result) {
                 if (err) {
@@ -55,10 +55,10 @@ router.get('/', function(req, res) {
                             pi_id: result[i].pi_id,
                             pi_watt: result[i].pi_watt,
                             pi_type: result[i].pi_type,
-                            pi_installPrice: result[i].pi_installPrice.toLocaleString() + "원" ,
-                            pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원",
-                            pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + "원" ,
-                            pi_size: result[i].pi_size + "mm"
+                            pi_installPrice: result[i].pi_installPrice.toLocaleString() + " 원" ,
+                            pi_supportPrice: ( result[i].pi_installPrice - calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + " 원",
+                            pi_actualPrice: ( calculActualPrice(result[i].pi_watt, result[i].pi_installPrice) ).toLocaleString() + " 원" ,
+                            pi_size: result[i].pi_size + " mm"
                         }
                         list.push(data);
                     }

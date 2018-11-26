@@ -94,8 +94,8 @@ router.get('/', function(req, res) {
 
                         if( i == result.length - 1 ) {
 
-                            let minMaxWatt = minWatt + "~" + maxWatt + "W" ;
-                            let minMaxPrice = minPrice.toLocaleString() + "~" + maxPrice.toLocaleString() + "원" ;
+                            let minMaxWatt = minWatt + "~" + maxWatt + " W" ;
+                            let minMaxPrice = minPrice.toLocaleString() + "~" + maxPrice.toLocaleString() + " 원" ;
 
                             let data = {
                                 c_id : index ,
